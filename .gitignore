@@ -1,0 +1,44 @@
+# Python & Lingkungan Eksekusi
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# Kredensial & Secrets Lingkungan
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+config/secret_credentials.json
+
+# Basis Data & Storage Lokal
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Hasil Crawling, Laporan & Log Dinamis
+output/
+logs/
+*.log
+
+# Cache & Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
