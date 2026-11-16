@@ -8,6 +8,14 @@
 
 **Input**: User description: "Lokalisasi DigitalTrenEye untuk pengguna Indonesia: antarmuka, laporan, CLI, notifikasi, dan konfigurasi berbahasa Indonesia; RSS portal Indonesia; pencocokan kata yang benar untuk bahasa Indonesia; AI tetap opsional dan mati secara default."
 
+## Clarifications
+
+### Session 2026-11-17
+
+- Q: Ketika kata kunci terdiri dari dua kata, misalnya `pemilu 2029`, bagaimana sistem menentukan bahwa sebuah judul cocok? → A: Frasa harus muncul utuh dan berurutan.
+- Q: Seberapa agresif varian kata yang dianggap cocok, misalnya kata kunci `berita` terhadap judul "Pemberitaan media berubah"? → A: Imbuhan umum: awalan `ber-`, `me-`, `pe-` dan akhiran `-an`, `-kan`, `-nya`.
+- Q: Saat aturan retensi 90 hari pertama kali aktif, data yang sudah lebih tua dari 90 hari sebaiknya bagaimana? → A: Dihapus otomatis pada pembersihan pertama, dan jumlahnya dicatat di log.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Laporan berbahasa Indonesia tanpa sisa Mandarin (Priority: P1)
@@ -40,6 +48,7 @@ Seorang pengguna menetapkan kata kunci berbahasa Indonesia, lalu menerima daftar
 2. **Given** kata kunci `aksi`, **When** sistem memeriksa judul "Transaksi saham naik", **Then** judul tersebut tidak dianggap cocok.
 3. **Given** kata kunci `pemilu`, **When** sistem memeriksa judul "Pemilu 2029 dipersiapkan", **Then** judul tersebut dianggap cocok.
 4. **Given** kata kunci berimbuhan seperti `berita`, **When** sistem memeriksa judul "Pemberitaan media berubah", **Then** judul tersebut dapat dikenali sebagai varian kata yang relevan.
+5. **Given** kata kunci frasa `pemilu 2029`, **When** sistem memeriksa judul "Pemilu baru 2029 digelar", **Then** judul tersebut tidak dianggap cocok karena frasa tidak muncul berurutan.
 
 ---
 
@@ -112,7 +121,8 @@ Seorang pengguna membuka file konfigurasi dan editor konfigurasi web, lalu memah
 - **FR-005**: Sistem WAJIB menampilkan angka dengan pemisah ribuan titik dan desimal koma, misalnya `1.234,5`.
 - **FR-006**: Zona waktu bawaan WAJIB `Asia/Jakarta` dan dapat diubah ke zona waktu Indonesia lainnya melalui konfigurasi.
 - **FR-007**: Pencocokan kata kunci WAJIB menghormati batas kata sehingga kata kunci pendek tidak cocok pada potongan kata yang tidak relevan.
-- **FR-008**: Pencocokan WAJIB mengenali varian berimbuhan dari kata kunci Bahasa Indonesia.
+- **FR-007a**: Kata kunci yang terdiri dari dua kata atau lebih WAJIB dicocokkan sebagai frasa utuh dan berurutan.
+- **FR-008**: Pencocokan WAJIB mengenali varian berimbuhan umum Bahasa Indonesia, yaitu awalan `ber-`, `me-`, `pe-` dan akhiran `-an`, `-kan`, `-nya`. Varian di luar itu tidak wajib dikenali.
 - **FR-009**: Akurasi pencocokan WAJIB menghasilkan maksimal 1 kesalahan cocok dari 50 judul uji.
 - **FR-010**: Sumber berita Indonesia WAJIB tersedia sebagai jalur utama melalui feed RSS, dengan minimal 10 feed terverifikasi aktif.
 - **FR-011**: Platform bawaan asal Tiongkok WAJIB dihapus dari daftar sumber aktif; contohnya boleh dipertahankan di komentar.
@@ -121,7 +131,7 @@ Seorang pengguna membuka file konfigurasi dan editor konfigurasi web, lalu memah
 - **FR-014**: Notifikasi Telegram WAJIB memuat judul, sumber, waktu dalam zona waktu pengguna, dan tautan berita.
 - **FR-015**: Perintah WAJIB menyediakan opsi tersembunyi untuk mengembalikan antarmuka ke Bahasa Inggris tanpa mengubah bahasa log.
 - **FR-016**: Konfigurasi WAJIB menyediakan locale antarmuka terpisah dari bahasa keluaran AI.
-- **FR-017**: Retensi data lokal bawaan WAJIB 90 hari untuk basis data; laporan HTML tidak dihapus otomatis pada fase ini.
+- **FR-017**: Retensi data lokal bawaan WAJIB 90 hari untuk basis data. Data yang lebih tua WAJIB dihapus otomatis pada pembersihan pertama dan jumlahnya dicatat di log. Laporan HTML tidak dihapus otomatis pada fase ini.
 - **FR-018**: Seluruh alur inti WAJIB berjalan tanpa AI, tanpa kredensial, dan tanpa koneksi ke penyedia model.
 - **FR-019**: Editor konfigurasi web WAJIB menyediakan Bahasa Indonesia sebagai bahasa bawaan dan Bahasa Inggris sebagai pilihan.
 - **FR-020**: Pesan error dari pustaka pihak ketiga WAJIB dipertahankan apa adanya, dengan penjelasan Bahasa Indonesia sebagai kalimat terpisah.
